@@ -1,0 +1,8 @@
+{
+  "sepolia": {
+    "wXTMBridge": {
+      "address": "0x0774838a6Bf49D1125b3426d87D8F831607B1e0A",
+      "startBlock": 8165061
+    }
+  }
+}
