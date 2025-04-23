@@ -18,6 +18,8 @@ dataSources:
       entities:
         - OwnershipTransferred
         - TokensUnwrapped
+        - Counter
+        - PushNotification
       abis:
         - name: wXTMBridge
           file: ./abis/wXTMBridge.json
