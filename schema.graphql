@@ -16,3 +16,21 @@ type TokensUnwrapped @entity(immutable: true) {
   blockTimestamp: BigInt!
   transactionHash: Bytes!
 }
+
+type Counter @entity(immutable: false) {
+  id: ID!
+  value: Int!
+}
+
+type PushNotification @entity(immutable: true) {
+  id: ID!
+  signature: String!
+  contract: Bytes!
+  timestamp: BigInt!
+  blockHash: Bytes!
+  blockNumber: BigInt!
+  transactionHash: Bytes!
+  logIndex: BigInt!
+  seqNumber: Int!
+  transactionData: Bytes
+}
