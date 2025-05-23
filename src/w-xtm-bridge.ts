@@ -1,38 +1,10 @@
+import { TokensUnwrapped as TokensUnwrappedEvent } from "../generated/wXTMBridge/wXTMBridge";
 import {
-  OwnershipTransferred as OwnershipTransferredEvent,
-  TokensUnwrapped as TokensUnwrappedEvent,
-} from "../generated/wXTMBridge/wXTMBridge";
-import {
-  OwnershipTransferred,
   TokensUnwrapped,
   Counter,
   PushNotification,
 } from "../generated/schema";
 import { Bytes, ethereum } from "@graphprotocol/graph-ts";
-
-export function handleOwnershipTransferred(
-  event: OwnershipTransferredEvent
-): void {
-  let entity = new OwnershipTransferred(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  );
-  entity.previousOwner = event.params.previousOwner;
-  entity.newOwner = event.params.newOwner;
-
-  entity.blockNumber = event.block.number;
-  entity.blockTimestamp = event.block.timestamp;
-  entity.transactionHash = event.transaction.hash;
-
-  entity.save();
-
-  const data = encodeOwnershipTransferredNotification(event);
-
-  insertPushNotification(
-    event,
-    PushNotificationSignature.OwnershipTransferred,
-    data
-  );
-}
 
 export function handleTokensUnwrapped(event: TokensUnwrappedEvent): void {
   let entity = new TokensUnwrapped(
@@ -94,23 +66,6 @@ function insertPushNotification(
   pushNotification.save();
 }
 
-function encodeOwnershipTransferredNotification<
-  T extends OwnershipTransferredEvent,
->(event: T): Bytes {
-  const previousOwner = ethereum.Value.fromAddress(event.params.previousOwner);
-  const newOwner = ethereum.Value.fromAddress(event.params.newOwner);
-
-  const fixedSizedArray = ethereum.Value.fromFixedSizedArray([
-    previousOwner,
-    newOwner,
-  ]);
-  const tupleArray: Array<ethereum.Value> = [fixedSizedArray];
-  const tuple = changetype<ethereum.Tuple>(tupleArray);
-  const encoded = ethereum.encode(ethereum.Value.fromTuple(tuple))!;
-
-  return encoded;
-}
-
 function encodeTokensUnwrappedNotification<T extends TokensUnwrappedEvent>(
   event: T
 ): Bytes {
@@ -131,7 +86,6 @@ function encodeTokensUnwrappedNotification<T extends TokensUnwrappedEvent>(
 }
 
 export namespace PushNotificationSignature {
-  export const OwnershipTransferred = "OwnershipTransferred";
   export const TokensUnwrapped = "TokensUnwrapped";
 }
 
