@@ -8,15 +8,14 @@ dataSources:
     name: wXTMBridge
     network: sepolia
     source:
-      address: "0x0774838a6Bf49D1125b3426d87D8F831607B1e0A"
+      address: "0x42dbaC20Bf60eC34232e16408d2f745519ff2E56"
       abi: wXTMBridge
-      startBlock: 8165061
+      startBlock: 8381746
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.9
       language: wasm/assemblyscript
       entities:
-        - OwnershipTransferred
         - TokensUnwrapped
         - Counter
         - PushNotification
@@ -24,8 +23,6 @@ dataSources:
         - name: wXTMBridge
           file: ./abis/wXTMBridge.json
       eventHandlers:
-        - event: OwnershipTransferred(indexed address,indexed address)
-          handler: handleOwnershipTransferred
         - event: TokensUnwrapped(indexed address,string,indexed uint256)
           handler: handleTokensUnwrapped
       file: ./src/w-xtm-bridge.ts
