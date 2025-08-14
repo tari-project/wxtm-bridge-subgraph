@@ -3,6 +3,7 @@ type TokensUnwrapped @entity(immutable: true) {
   from: Bytes! # address
   targetTariAddress: String! # string
   amount: BigInt! # uint256
+  nonce: BigInt! # uint256
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!

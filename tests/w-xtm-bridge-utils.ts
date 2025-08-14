@@ -5,7 +5,8 @@ import { TokensUnwrapped } from "../generated/wXTMBridge/wXTMBridge";
 export function createTokensUnwrappedEvent(
   from: Address,
   targetTariAddress: string,
-  amount: BigInt
+  amount: BigInt,
+  nonce: BigInt
 ): TokensUnwrapped {
   let tokensUnwrappedEvent = changetype<TokensUnwrapped>(newMockEvent());
 
@@ -22,6 +23,9 @@ export function createTokensUnwrappedEvent(
   );
   tokensUnwrappedEvent.parameters.push(
     new ethereum.EventParam("amount", ethereum.Value.fromUnsignedBigInt(amount))
+  );
+  tokensUnwrappedEvent.parameters.push(
+    new ethereum.EventParam("nonce", ethereum.Value.fromUnsignedBigInt(nonce))
   );
 
   return tokensUnwrappedEvent;

@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: wXTMBridge
-    network: mainnet
+    network: sepolia
     source:
-      address: "0xb72FD42A94a360587dCe790947e18A2CbcD4BC65"
+      address: "0xCdb50115F33969d68E1B070808D60f4D9BF69816"
       abi: wXTMBridge
-      startBlock: 22539483
+      startBlock: 8982479
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.9
@@ -23,6 +23,6 @@ dataSources:
         - name: wXTMBridge
           file: ./abis/wXTMBridge.json
       eventHandlers:
-        - event: TokensUnwrapped(indexed address,string,indexed uint256)
+        - event: TokensUnwrapped(address,string,uint256,uint256)
           handler: handleTokensUnwrapped
       file: ./src/w-xtm-bridge.ts

@@ -28,11 +28,13 @@ describe("wXTM Bridge Entity Assertions", () => {
     let targetTariAddress =
       "tari1qyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqs";
     let amount = BigInt.fromI32(1000000000); // 1 billion units
+    let nonce = BigInt.fromI32(123456);
 
     let tokensUnwrappedEvent = createTokensUnwrappedEvent(
       from,
       targetTariAddress,
-      amount
+      amount,
+      nonce
     );
 
     logStore();
@@ -66,6 +68,12 @@ describe("wXTM Bridge Entity Assertions", () => {
       "amount",
       "1000000000"
     );
+    assert.fieldEquals(
+      "TokensUnwrapped",
+      expectedId.toHexString(),
+      "nonce",
+      "123456"
+    );
   });
 
   test("Counter entity created and incremented", () => {
@@ -82,11 +90,13 @@ describe("wXTM Bridge Entity Assertions", () => {
     let targetTariAddress =
       "tari1qyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqs";
     let amount = BigInt.fromI32(1000000000);
+    let nonce = BigInt.fromI32(123456);
 
     let tokensUnwrappedEvent = createTokensUnwrappedEvent(
       from,
       targetTariAddress,
-      amount
+      amount,
+      nonce
     );
 
     // Build expected ID: txHash-logIndex-seqNumber
@@ -111,11 +121,13 @@ describe("wXTM Bridge Entity Assertions", () => {
     );
     let targetTariAddress2 = "tari1different_address_here";
     let amount2 = BigInt.fromI32(2000000000);
+    let nonce2 = BigInt.fromI32(789012);
 
     let secondTokensUnwrappedEvent = createTokensUnwrappedEvent(
       from2,
       targetTariAddress2,
-      amount2
+      amount2,
+      nonce2
     );
 
     // Manually modify the event to have different transaction hash and log index to avoid overwriting the first entity
@@ -137,11 +149,13 @@ describe("wXTM Bridge Entity Assertions", () => {
     );
     let targetTariAddress3 = "tari1zero_amount_test";
     let amount3 = BigInt.fromI32(0);
+    let nonce3 = BigInt.fromI32(0);
 
     let thirdTokensUnwrappedEvent = createTokensUnwrappedEvent(
       from3,
       targetTariAddress3,
-      amount3
+      amount3,
+      nonce3
     );
 
     // Manually modify the event to have different transaction hash and log index to avoid overwriting previous entities
@@ -163,6 +177,12 @@ describe("wXTM Bridge Entity Assertions", () => {
       "TokensUnwrapped",
       expectedId.toHexString(),
       "amount",
+      "0"
+    );
+    assert.fieldEquals(
+      "TokensUnwrapped",
+      expectedId.toHexString(),
+      "nonce",
       "0"
     );
 
