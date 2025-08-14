@@ -17,7 +17,7 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "address",
         "name": "from",
         "type": "address"
@@ -29,9 +29,15 @@
         "type": "string"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "uint256",
         "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "nonce",
         "type": "uint256"
       }
     ],
@@ -62,7 +68,7 @@
       { "internalType": "uint256", "name": "value", "type": "uint256" },
       { "internalType": "uint256", "name": "validAfter", "type": "uint256" },
       { "internalType": "uint256", "name": "validBefore", "type": "uint256" },
-      { "internalType": "bytes32", "name": "nonce", "type": "bytes32" },
+      { "internalType": "bytes32", "name": "authNonce", "type": "bytes32" },
       { "internalType": "uint8", "name": "v", "type": "uint8" },
       { "internalType": "bytes32", "name": "r", "type": "bytes32" },
       { "internalType": "bytes32", "name": "s", "type": "bytes32" }
