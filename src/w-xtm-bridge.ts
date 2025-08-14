@@ -10,9 +10,11 @@ export function handleTokensUnwrapped(event: TokensUnwrappedEvent): void {
   let entity = new TokensUnwrapped(
     event.transaction.hash.concatI32(event.logIndex.toI32())
   );
+
   entity.from = event.params.from;
   entity.targetTariAddress = event.params.targetTariAddress;
   entity.amount = event.params.amount;
+  entity.nonce = event.params.nonce;
 
   entity.blockNumber = event.block.number;
   entity.blockTimestamp = event.block.timestamp;
@@ -31,17 +33,21 @@ export function handleTokensUnwrapped(event: TokensUnwrappedEvent): void {
 
 function getCounterValue(name: string): i32 {
   const counter = Counter.load(name);
+
   return counter ? counter.value : 0;
 }
 
 function incrementCounter(name: string): i32 {
   let counter = Counter.load(name);
   let newCounterValue = getCounterValue(name) + 1;
+
   if (!counter) {
     counter = new Counter(name);
   }
+
   counter.value = newCounterValue;
   counter.save();
+
   return newCounterValue;
 }
 
@@ -54,6 +60,7 @@ function insertPushNotification(
   let pushNotification = new PushNotification(
     `${event.transaction.hash.toHex()}-${event.logIndex.toString()}-${newPushNotificationId}`
   );
+
   pushNotification.contract = event.address;
   pushNotification.timestamp = event.block.timestamp;
   pushNotification.blockHash = event.block.hash;
@@ -74,11 +81,14 @@ function encodeTokensUnwrappedNotification<T extends TokensUnwrappedEvent>(
     event.params.targetTariAddress
   );
   const amount = ethereum.Value.fromUnsignedBigInt(event.params.amount);
+  const nonce = ethereum.Value.fromUnsignedBigInt(event.params.nonce);
+
   const fixedSizedArray = ethereum.Value.fromFixedSizedArray([
     from,
     targetTariAddress,
   ]);
-  const tupleArray: Array<ethereum.Value> = [fixedSizedArray, amount];
+
+  const tupleArray: Array<ethereum.Value> = [fixedSizedArray, amount, nonce];
   const tuple = changetype<ethereum.Tuple>(tupleArray);
   const encoded = ethereum.encode(ethereum.Value.fromTuple(tuple))!;
 
