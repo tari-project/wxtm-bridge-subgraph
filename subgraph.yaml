@@ -8,9 +8,9 @@ dataSources:
     name: wXTMBridge
     network: sepolia
     source:
-      address: "0xCdb50115F33969d68E1B070808D60f4D9BF69816"
+      address: "0x4F31d7FC63FdBcfC119F9A0C0549150B00C356e8"
       abi: wXTMBridge
-      startBlock: 8982479
+      startBlock: 9010652
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.9
