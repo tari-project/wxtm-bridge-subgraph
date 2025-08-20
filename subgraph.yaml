@@ -16,7 +16,7 @@ dataSources:
       apiVersion: 0.0.9
       language: wasm/assemblyscript
       entities:
-        - TokensUnwrappedDetails
+        - TokensUnwrappedRecord
       abis:
         - name: wXTMBridge
           file: ./abis/wXTMBridge.json

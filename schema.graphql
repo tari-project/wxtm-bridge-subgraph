@@ -1,4 +1,4 @@
-type TokensUnwrappedDetails @entity(immutable: true) {
+type TokensUnwrappedRecord @entity(immutable: true) {
   id: ID!
   nonce: BigInt!
   signature: String!

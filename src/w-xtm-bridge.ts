@@ -1,39 +1,39 @@
 import { TokensUnwrapped as TokensUnwrappedEvent } from "../generated/wXTMBridge/wXTMBridge";
-import { TokensUnwrappedDetails } from "../generated/schema";
+import { TokensUnwrappedRecord } from "../generated/schema";
 import { Bytes, ethereum, BigInt } from "@graphprotocol/graph-ts";
 
 export function handleTokensUnwrapped(event: TokensUnwrappedEvent): void {
   const data = encodeTokensUnwrappedNotification(event);
 
-  insertTokensUnwrappedDetails(
+  insertTokensUnwrappedRecord(
     event,
-    TokensUnwrappedDetailsSignature.TokensUnwrapped,
+    TokensUnwrappedRecordSignature.TokensUnwrapped,
     event.params.nonce,
     data
   );
 }
 
-function insertTokensUnwrappedDetails(
+function insertTokensUnwrappedRecord(
   event: ethereum.Event,
-  transactionDataSignature: TokensUnwrappedDetailsSignature,
+  transactionDataSignature: TokensUnwrappedRecordSignature,
   nonce: BigInt,
   transactionData: Bytes
 ): void {
-  let tokensUnwrappedDetails = new TokensUnwrappedDetails(
+  let tokensUnwrappedRecord = new TokensUnwrappedRecord(
     `${event.transaction.hash.toHex()}-${event.logIndex.toString()}-${nonce.toString()}`
   );
 
-  tokensUnwrappedDetails.nonce = nonce;
-  tokensUnwrappedDetails.contract = event.address;
-  tokensUnwrappedDetails.timestamp = event.block.timestamp;
-  tokensUnwrappedDetails.blockHash = event.block.hash;
-  tokensUnwrappedDetails.blockNumber = event.block.number;
-  tokensUnwrappedDetails.transactionHash = event.transaction.hash;
-  tokensUnwrappedDetails.logIndex = event.logIndex;
-  tokensUnwrappedDetails.signature = transactionDataSignature;
-  tokensUnwrappedDetails.transactionData = transactionData;
+  tokensUnwrappedRecord.nonce = nonce;
+  tokensUnwrappedRecord.contract = event.address;
+  tokensUnwrappedRecord.timestamp = event.block.timestamp;
+  tokensUnwrappedRecord.blockHash = event.block.hash;
+  tokensUnwrappedRecord.blockNumber = event.block.number;
+  tokensUnwrappedRecord.transactionHash = event.transaction.hash;
+  tokensUnwrappedRecord.logIndex = event.logIndex;
+  tokensUnwrappedRecord.signature = transactionDataSignature;
+  tokensUnwrappedRecord.transactionData = transactionData;
 
-  tokensUnwrappedDetails.save();
+  tokensUnwrappedRecord.save();
 }
 
 function encodeTokensUnwrappedNotification<T extends TokensUnwrappedEvent>(
@@ -57,8 +57,8 @@ function encodeTokensUnwrappedNotification<T extends TokensUnwrappedEvent>(
   return encoded;
 }
 
-export namespace TokensUnwrappedDetailsSignature {
+export namespace TokensUnwrappedRecordSignature {
   export const TokensUnwrapped = "TokensUnwrapped";
 }
 
-export type TokensUnwrappedDetailsSignature = string;
+export type TokensUnwrappedRecordSignature = string;
