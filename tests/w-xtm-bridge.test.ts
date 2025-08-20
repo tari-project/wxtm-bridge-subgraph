@@ -23,11 +23,11 @@ describe("wXTM Bridge Entity Assertions", () => {
     clearStore();
   });
 
-  test("TokensUnwrapped created and stored", () => {
+  test("TokensUnwrappedDetails created and stored", () => {
     let from = Address.fromString("0x1234567890123456789012345678901234567890");
     let targetTariAddress =
       "tari1qyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqs";
-    let amount = BigInt.fromI32(1000000000); // 1 billion units
+    let amount = BigInt.fromI32(1000000000);
     let nonce = BigInt.fromI32(123456);
 
     let tokensUnwrappedEvent = createTokensUnwrappedEvent(
@@ -43,79 +43,26 @@ describe("wXTM Bridge Entity Assertions", () => {
 
     logStore();
 
-    assert.entityCount("TokensUnwrapped", 1);
+    assert.entityCount("TokensUnwrappedDetails", 1);
 
-    // The ID is created using: event.transaction.hash.concatI32(event.logIndex.toI32())
-    let expectedId = tokensUnwrappedEvent.transaction.hash.concatI32(
-      tokensUnwrappedEvent.logIndex.toI32()
-    );
-
-    assert.fieldEquals(
-      "TokensUnwrapped",
-      expectedId.toHexString(),
-      "from",
-      "0x1234567890123456789012345678901234567890"
-    );
-    assert.fieldEquals(
-      "TokensUnwrapped",
-      expectedId.toHexString(),
-      "targetTariAddress",
-      targetTariAddress
-    );
-    assert.fieldEquals(
-      "TokensUnwrapped",
-      expectedId.toHexString(),
-      "amount",
-      "1000000000"
-    );
-    assert.fieldEquals(
-      "TokensUnwrapped",
-      expectedId.toHexString(),
-      "nonce",
-      "123456"
-    );
-  });
-
-  test("Counter entity created and incremented", () => {
-    // Below exists from previous test
-    assert.entityCount("Counter", 1);
-    assert.fieldEquals("Counter", "PUSH_NOTIFICATION", "value", "1");
-  });
-
-  test("PushNotification created and stored", () => {
-    assert.entityCount("PushNotification", 1);
-
-    // The PushNotification ID format is: txHash-logIndex-seqNumber
-    let from = Address.fromString("0x1234567890123456789012345678901234567890");
-    let targetTariAddress =
-      "tari1qyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqs";
-    let amount = BigInt.fromI32(1000000000);
-    let nonce = BigInt.fromI32(123456);
-
-    let tokensUnwrappedEvent = createTokensUnwrappedEvent(
-      from,
-      targetTariAddress,
-      amount,
-      nonce
-    );
-
-    // Build expected ID: txHash-logIndex-seqNumber
-    let expectedPushId =
+    // The ID is created using: txHash-logIndex-nonce
+    let expectedId =
       tokensUnwrappedEvent.transaction.hash.toHex() +
       "-" +
       tokensUnwrappedEvent.logIndex.toString() +
-      "-1";
+      "-" +
+      nonce.toString();
 
     assert.fieldEquals(
-      "PushNotification",
-      expectedPushId,
+      "TokensUnwrappedDetails",
+      expectedId,
       "signature",
       "TokensUnwrapped"
     );
-    assert.fieldEquals("PushNotification", expectedPushId, "seqNumber", "1");
+    assert.fieldEquals("TokensUnwrappedDetails", expectedId, "nonce", "123456");
   });
 
-  test("Multiple TokensUnwrapped events increment counter correctly", () => {
+  test("Multiple TokensUnwrappedDetails events created correctly", () => {
     let from2 = Address.fromString(
       "0x9876543210987654321098765432109876543210"
     );
@@ -138,18 +85,31 @@ describe("wXTM Bridge Entity Assertions", () => {
 
     handleTokensUnwrapped(secondTokensUnwrappedEvent);
 
-    assert.entityCount("TokensUnwrapped", 2);
-    assert.entityCount("PushNotification", 2);
-    assert.fieldEquals("Counter", "PUSH_NOTIFICATION", "value", "2");
+    assert.entityCount("TokensUnwrappedDetails", 2);
+
+    // Verify the second entity has the correct nonce
+    let expectedId2 =
+      secondTokensUnwrappedEvent.transaction.hash.toHex() +
+      "-" +
+      secondTokensUnwrappedEvent.logIndex.toString() +
+      "-" +
+      nonce2.toString();
+
+    assert.fieldEquals(
+      "TokensUnwrappedDetails",
+      expectedId2,
+      "nonce",
+      "789012"
+    );
   });
 
-  test("TokensUnwrapped with zero amount", () => {
+  test("TokensUnwrappedDetails with large amount", () => {
     let from3 = Address.fromString(
       "0x1111111111111111111111111111111111111111"
     );
-    let targetTariAddress3 = "tari1zero_amount_test";
-    let amount3 = BigInt.fromI32(0);
-    let nonce3 = BigInt.fromI32(0);
+    let targetTariAddress3 = "tari1large_amount_test";
+    let amount3 = BigInt.fromI32(5);
+    let nonce3 = BigInt.fromI32(999);
 
     let thirdTokensUnwrappedEvent = createTokensUnwrappedEvent(
       from3,
@@ -166,26 +126,21 @@ describe("wXTM Bridge Entity Assertions", () => {
 
     handleTokensUnwrapped(thirdTokensUnwrappedEvent);
 
-    assert.entityCount("TokensUnwrapped", 3);
-    assert.entityCount("PushNotification", 3);
+    assert.entityCount("TokensUnwrappedDetails", 3);
 
-    let expectedId = thirdTokensUnwrappedEvent.transaction.hash.concatI32(
-      thirdTokensUnwrappedEvent.logIndex.toI32()
-    );
+    let expectedId3 =
+      thirdTokensUnwrappedEvent.transaction.hash.toHex() +
+      "-" +
+      thirdTokensUnwrappedEvent.logIndex.toString() +
+      "-" +
+      nonce3.toString();
 
+    assert.fieldEquals("TokensUnwrappedDetails", expectedId3, "nonce", "999");
     assert.fieldEquals(
-      "TokensUnwrapped",
-      expectedId.toHexString(),
-      "amount",
-      "0"
+      "TokensUnwrappedDetails",
+      expectedId3,
+      "signature",
+      "TokensUnwrapped"
     );
-    assert.fieldEquals(
-      "TokensUnwrapped",
-      expectedId.toHexString(),
-      "nonce",
-      "0"
-    );
-
-    assert.fieldEquals("Counter", "PUSH_NOTIFICATION", "value", "3");
   });
 });

@@ -1,21 +1,6 @@
-type TokensUnwrapped @entity(immutable: true) {
-  id: Bytes!
-  from: Bytes! # address
-  targetTariAddress: String! # string
-  amount: BigInt! # uint256
-  nonce: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type Counter @entity(immutable: false) {
+type TokensUnwrappedDetails @entity(immutable: true) {
   id: ID!
-  value: Int!
-}
-
-type PushNotification @entity(immutable: true) {
-  id: ID!
+  nonce: BigInt!
   signature: String!
   contract: Bytes!
   timestamp: BigInt!
@@ -23,6 +8,5 @@ type PushNotification @entity(immutable: true) {
   blockNumber: BigInt!
   transactionHash: Bytes!
   logIndex: BigInt!
-  seqNumber: Int!
   transactionData: Bytes
 }
