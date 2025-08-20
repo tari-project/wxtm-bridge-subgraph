@@ -23,7 +23,7 @@ describe("wXTM Bridge Entity Assertions", () => {
     clearStore();
   });
 
-  test("TokensUnwrappedDetails created and stored", () => {
+  test("TokensUnwrappedRecord created and stored", () => {
     let from = Address.fromString("0x1234567890123456789012345678901234567890");
     let targetTariAddress =
       "tari1qyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqs";
@@ -43,7 +43,7 @@ describe("wXTM Bridge Entity Assertions", () => {
 
     logStore();
 
-    assert.entityCount("TokensUnwrappedDetails", 1);
+    assert.entityCount("TokensUnwrappedRecord", 1);
 
     // The ID is created using: txHash-logIndex-nonce
     let expectedId =
@@ -54,15 +54,15 @@ describe("wXTM Bridge Entity Assertions", () => {
       nonce.toString();
 
     assert.fieldEquals(
-      "TokensUnwrappedDetails",
+      "TokensUnwrappedRecord",
       expectedId,
       "signature",
       "TokensUnwrapped"
     );
-    assert.fieldEquals("TokensUnwrappedDetails", expectedId, "nonce", "123456");
+    assert.fieldEquals("TokensUnwrappedRecord", expectedId, "nonce", "123456");
   });
 
-  test("Multiple TokensUnwrappedDetails events created correctly", () => {
+  test("Multiple TokensUnwrappedRecord events created correctly", () => {
     let from2 = Address.fromString(
       "0x9876543210987654321098765432109876543210"
     );
@@ -85,7 +85,7 @@ describe("wXTM Bridge Entity Assertions", () => {
 
     handleTokensUnwrapped(secondTokensUnwrappedEvent);
 
-    assert.entityCount("TokensUnwrappedDetails", 2);
+    assert.entityCount("TokensUnwrappedRecord", 2);
 
     // Verify the second entity has the correct nonce
     let expectedId2 =
@@ -95,15 +95,10 @@ describe("wXTM Bridge Entity Assertions", () => {
       "-" +
       nonce2.toString();
 
-    assert.fieldEquals(
-      "TokensUnwrappedDetails",
-      expectedId2,
-      "nonce",
-      "789012"
-    );
+    assert.fieldEquals("TokensUnwrappedRecord", expectedId2, "nonce", "789012");
   });
 
-  test("TokensUnwrappedDetails with large amount", () => {
+  test("TokensUnwrappedRecord with large amount", () => {
     let from3 = Address.fromString(
       "0x1111111111111111111111111111111111111111"
     );
@@ -126,7 +121,7 @@ describe("wXTM Bridge Entity Assertions", () => {
 
     handleTokensUnwrapped(thirdTokensUnwrappedEvent);
 
-    assert.entityCount("TokensUnwrappedDetails", 3);
+    assert.entityCount("TokensUnwrappedRecord", 3);
 
     let expectedId3 =
       thirdTokensUnwrappedEvent.transaction.hash.toHex() +
@@ -135,9 +130,9 @@ describe("wXTM Bridge Entity Assertions", () => {
       "-" +
       nonce3.toString();
 
-    assert.fieldEquals("TokensUnwrappedDetails", expectedId3, "nonce", "999");
+    assert.fieldEquals("TokensUnwrappedRecord", expectedId3, "nonce", "999");
     assert.fieldEquals(
-      "TokensUnwrappedDetails",
+      "TokensUnwrappedRecord",
       expectedId3,
       "signature",
       "TokensUnwrapped"
