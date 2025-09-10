@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: wXTMBridge
-    network: sepolia
+    network: mainnet
     source:
-      address: "0x4F31d7FC63FdBcfC119F9A0C0549150B00C356e8"
+      address: "0x810be828EFA687667B289C488A57a7B48Fb4523E"
       abi: wXTMBridge
-      startBlock: 9010652
+      startBlock: 23332014
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.9
