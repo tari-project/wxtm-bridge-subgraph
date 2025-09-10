@@ -1,8 +1,8 @@
 {
-  "sepolia": {
+  "mainnet": {
     "wXTMBridge": {
-      "address": "0x4F31d7FC63FdBcfC119F9A0C0549150B00C356e8",
-      "startBlock": 9010652
+      "address": "0x810be828EFA687667B289C488A57a7B48Fb4523E",
+      "startBlock": 23332014
     }
   }
 }
