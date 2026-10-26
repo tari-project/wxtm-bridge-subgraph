@@ -55,8 +55,9 @@ The `base-sepolia` and `base` wTARIBridge entries in `networks.json` are placeho
    pnpm sync-wtari-networks [path/to/deployments.json]
    ```
    The default path is `../wxtm-bridge-contracts/wxtm-bridge-contracts-typechain/deployments/deployments.json`.
-4. Deploy with `deploy:wtari:studio` / `deploy:wtari:goldsky` and `--network <name>`.
-5. Record the URL as the chain's `subgraphUrl` in `OOTLE_EVM_CHAINS`.
+4. Review the `networks.json` diff (address and start block against the contracts deployment) and commit it.
+5. Deploy with `deploy:wtari:studio` / `deploy:wtari:goldsky` and `--network <name>`.
+6. Record the URL as the chain's `subgraphUrl` in `OOTLE_EVM_CHAINS`.
 
 ### Retiring a chain
 

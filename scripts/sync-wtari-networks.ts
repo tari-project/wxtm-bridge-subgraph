@@ -23,10 +23,10 @@ for (const chainId of Object.keys(deployments)) {
     continue;
   }
 
-  const network = NETWORK_NAMES[chainId];
-  if (!network) {
+  if (!/^[0-9]+$/.test(chainId) || !Object.hasOwn(NETWORK_NAMES, chainId)) {
     throw new Error(`No graph network name for chain ${chainId}; add it to NETWORK_NAMES`);
   }
+  const network = NETWORK_NAMES[chainId];
   const address = dep.wTARIBridge;
   if (
     typeof address !== "string" ||
