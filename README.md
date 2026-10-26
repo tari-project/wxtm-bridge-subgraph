@@ -11,6 +11,8 @@ A subgraph deployment indexes one network. The address and start block per netwo
 
 ## Setup
 
+Use pnpm (the version is pinned in `package.json` `packageManager`); there is no npm or yarn lockfile.
+
 ```sh
 pnpm install
 pnpm codegen && pnpm build                  # wXTM

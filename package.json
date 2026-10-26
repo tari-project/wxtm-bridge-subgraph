@@ -1,6 +1,7 @@
 {
   "name": "wxtm-bridge",
   "license": "MIT",
+  "packageManager": "pnpm@11.21.0",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
