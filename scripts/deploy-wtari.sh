@@ -23,6 +23,18 @@ if [ -z "$network" ]; then
 fi
 name="wtari-bridge-$network"
 
+# Refuse placeholder or missing entries; run `pnpm sync-wtari-networks` first.
+address=$(jq -r --arg n "$network" '.[$n].wTARIBridge.address // empty' networks.json)
+start_block=$(jq -r --arg n "$network" '.[$n].wTARIBridge.startBlock // empty' networks.json)
+if ! echo "$address" | grep -Eq '^0x[0-9a-fA-F]{40}$' || echo "$address" | grep -Eq '^0x0{40}$'; then
+  echo "networks.json: $network has no valid non-zero wTARIBridge address (got '$address')" >&2
+  exit 1
+fi
+if ! echo "$start_block" | grep -Eq '^[1-9][0-9]*$'; then
+  echo "networks.json: $network wTARIBridge startBlock must be > 0 (got '$start_block')" >&2
+  exit 1
+fi
+
 graph codegen subgraph.wtari.yaml
 
 case "$target" in

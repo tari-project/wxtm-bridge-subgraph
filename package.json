@@ -8,7 +8,7 @@
     "create-local": "graph create --node http://localhost:8020/ wxtm-bridge",
     "remove-local": "graph remove --node http://localhost:8020/ wxtm-bridge",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 wxtm-bridge",
-    "test": "graph test",
+    "test": "graph test -v 0.6.0",
     "codegen:wtari": "graph codegen subgraph.wtari.yaml",
     "build:wtari": "graph build subgraph.wtari.yaml",
     "deploy:wtari:studio": "sh scripts/deploy-wtari.sh studio",
@@ -22,15 +22,5 @@
   "devDependencies": {
     "assemblyscript": "0.19.23",
     "matchstick-as": "0.6.0"
-  },
-  "overrides": {
-    "cross-spawn": "^7.0.5",
-    "ejs": "^3.1.10",
-    "semver": "^7.5.2",
-    "axios": "^0.30.0",
-    "glob": "^11.1.0",
-    "js-yaml": "^4.1.1",
-    "tmp": "^0.2.4",
-    "brace-expansion": "^1.1.12"
   }
 }

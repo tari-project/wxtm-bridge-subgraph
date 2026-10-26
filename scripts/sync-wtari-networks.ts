@@ -27,18 +27,24 @@ for (const chainId of Object.keys(deployments)) {
   if (!network) {
     throw new Error(`No graph network name for chain ${chainId}; add it to NETWORK_NAMES`);
   }
-  if (typeof dep.wTARIBridge !== "string") {
-    throw new Error(`Chain ${chainId} has wTARI but no wTARIBridge address`);
+  const address = dep.wTARIBridge;
+  if (
+    typeof address !== "string" ||
+    !/^0x[0-9a-fA-F]{40}$/.test(address) ||
+    /^0x0{40}$/.test(address)
+  ) {
+    throw new Error(`Chain ${chainId} has wTARI but no valid non-zero wTARIBridge address (got ${address})`);
   }
-  if (typeof dep.wTARIBridgeStartBlock !== "number") {
-    throw new Error(`Chain ${chainId} has wTARI but no wTARIBridgeStartBlock`);
+  const startBlock = dep.wTARIBridgeStartBlock;
+  if (!Number.isSafeInteger(startBlock) || startBlock <= 0) {
+    throw new Error(`Chain ${chainId} has wTARI but wTARIBridgeStartBlock is not > 0 (got ${startBlock})`);
   }
 
   networks[network] = {
     ...networks[network],
-    wTARIBridge: { address: dep.wTARIBridge, startBlock: dep.wTARIBridgeStartBlock },
+    wTARIBridge: { address, startBlock },
   };
-  console.log(`${network}: wTARIBridge ${dep.wTARIBridge} from block ${dep.wTARIBridgeStartBlock}`);
+  console.log(`${network}: wTARIBridge ${address} from block ${startBlock}`);
 }
 
 writeFileSync(NETWORKS_FILE, JSON.stringify(networks, null, 2) + "\n");

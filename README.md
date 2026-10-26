@@ -28,10 +28,10 @@ Prod runs on Goldsky under the name `wxtm-dev`. At its next redeploy, move it to
 
 ## wTARI: per-chain deploys
 
-The deployment name is `wtari-bridge-<network>`.
+The deployment name is `wtari-bridge-<network>`. The deploy scripts need `jq` and refuse a network whose `networks.json` entry is missing, has the zero address, or has start block 0.
 
 ```sh
-# The Graph Studio (dev). Authenticate first with `pnpm graph auth <deploy-key>`.
+# The Graph Studio (dev). Authenticate first with `pnpm graph auth` (it prompts for the deploy key).
 pnpm deploy:wtari:studio -- --network base-sepolia [--version v0.0.1]
 
 # Goldsky (prod). Needs the goldsky CLI, logged in.
