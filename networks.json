@@ -4,5 +4,17 @@
       "address": "0x810be828EFA687667B289C488A57a7B48Fb4523E",
       "startBlock": 23332014
     }
+  },
+  "base-sepolia": {
+    "wTARIBridge": {
+      "address": "0x0000000000000000000000000000000000000000",
+      "startBlock": 0
+    }
+  },
+  "base": {
+    "wTARIBridge": {
+      "address": "0x0000000000000000000000000000000000000000",
+      "startBlock": 0
+    }
   }
 }

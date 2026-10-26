@@ -1,0 +1,26 @@
+specVersion: 1.3.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: wTARIBridge
+    network: base-sepolia
+    source:
+      abi: wTARIBridge
+      address: "0x0000000000000000000000000000000000000000"
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - TokensUnwrappedRecord
+      abis:
+        - name: wTARIBridge
+          file: ./abis/wTARIBridge.json
+      eventHandlers:
+        - event: TokensUnwrapped(address,string,uint256,uint256)
+          handler: handleTokensUnwrapped
+      file: ./src/w-tari-bridge.ts

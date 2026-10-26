@@ -8,13 +8,19 @@
     "create-local": "graph create --node http://localhost:8020/ wxtm-bridge",
     "remove-local": "graph remove --node http://localhost:8020/ wxtm-bridge",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 wxtm-bridge",
-    "test": "graph test"
+    "test": "graph test",
+    "codegen:wtari": "graph codegen subgraph.wtari.yaml",
+    "build:wtari": "graph build subgraph.wtari.yaml",
+    "deploy:wtari:studio": "sh scripts/deploy-wtari.sh studio",
+    "deploy:wtari:goldsky": "sh scripts/deploy-wtari.sh goldsky",
+    "sync-wtari-networks": "node --experimental-strip-types --no-warnings scripts/sync-wtari-networks.ts"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.98.1",
     "@graphprotocol/graph-ts": "0.38.2"
   },
   "devDependencies": {
+    "assemblyscript": "0.19.23",
     "matchstick-as": "0.6.0"
   },
   "overrides": {

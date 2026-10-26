@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build wXTM (subgraph.yaml)
+        run: |
+          pnpm codegen
+          pnpm build
+
+      - name: Build wTARI (subgraph.wtari.yaml) for every network in networks.json
+        run: |
+          pnpm codegen:wtari
+          for network in $(jq -r 'to_entries[] | select(.value.wTARIBridge) | .key' networks.json); do
+            echo "Building wTARI for $network"
+            pnpm build:wtari --network "$network"
+          done
+
+      - name: Test
+        run: pnpm test
