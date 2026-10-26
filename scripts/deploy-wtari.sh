@@ -28,9 +28,9 @@ graph codegen subgraph.wtari.yaml
 case "$target" in
   studio)
     if [ -n "$version" ]; then
-      graph deploy subgraph.wtari.yaml --node https://api.studio.thegraph.com/deploy/ --network "$network" --version-label "$version" "$name"
+      graph deploy "$name" subgraph.wtari.yaml --node https://api.studio.thegraph.com/deploy/ --network "$network" --version-label "$version"
     else
-      graph deploy subgraph.wtari.yaml --node https://api.studio.thegraph.com/deploy/ --network "$network" "$name"
+      graph deploy "$name" subgraph.wtari.yaml --node https://api.studio.thegraph.com/deploy/ --network "$network"
     fi
     ;;
   goldsky)
