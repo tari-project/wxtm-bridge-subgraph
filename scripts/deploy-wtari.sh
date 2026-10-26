@@ -26,10 +26,11 @@ name="wtari-bridge-$network"
 # Refuse placeholder or missing entries; run `pnpm sync-wtari-networks` first.
 if ! jq -e --arg n "$network" '
   .[$n].wTARIBridge
-  | (.address | type == "string" and test("\\A0x[0-9a-fA-F]{40}\\z") and (test("\\A0x0{40}\\z") | not))
+  | type == "object" and keys == ["address", "startBlock"]
+  and (.address | type == "string" and test("\\A0x[0-9a-fA-F]{40}\\z") and (test("\\A0x0{40}\\z") | not))
     and (.startBlock | type == "number" and . > 0 and floor == .)
 ' networks.json >/dev/null; then
-  echo "networks.json: $network needs a wTARIBridge entry with a non-zero 20-byte hex address and an integer startBlock > 0" >&2
+  echo "networks.json: $network needs a wTARIBridge entry with exactly a non-zero 20-byte hex address and an integer startBlock > 0" >&2
   exit 1
 fi
 
