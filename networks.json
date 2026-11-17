@@ -7,8 +7,8 @@
   },
   "base-sepolia": {
     "wTARIBridge": {
-      "address": "0x0000000000000000000000000000000000000000",
-      "startBlock": 0
+      "address": "0x8b21F505d9c0CeAb12A3a72Df4f808BaE9ef4F1a",
+      "startBlock": 59577684
     }
   },
   "base": {
